@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1" >
+<title>小小小小在线聊天室(chat-room)</title>
+<link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/chat.css">
+
+<!--[if lt IE9]>
+
+<![endif]-->
+
+<body>
+	<div class="tip">
+	<h4>【小小小小在线聊天室欢迎你!         直接开聊吧！】   <span>00:00:00</span></h4>
+	<h5>Tips: 点击用户名可以直接给TA私聊哦~ （私聊格式：@user:  + content ）消息发送快捷键: Ctrl+Enter</h5>
+	</div>
+	<div class="container">
+
+		<div class="row mt15">
+		<div class="col-sm-4">
+		<!--  个人信息区 -->
+			<div class="col-sm-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+					<div class="row">
+					<div class="col-sm-8">
+					<button class="btn btn-info" type="button" onclick="wrapInfo()">
+						<span class="glyphicon glyphicon-user"></span>&nbsp; 个人信息
+						</button>
+					</div>
+					<div class="col-sm-4">
+					<div class="btn-group">
+						<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+						<span class="glyphicon glyphicon-cog"></span>&nbsp; 设置
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a  onclick="changeInfo()">修改信息</a></li>
+							<li><a onclick="showChatMsgs()">聊天记录</a></li>
+							<li><a href="/logout">退出</a></li>
+						</ul>
+					</div>
+					</div>
+					</div>
+				</div>
+					<div class="panel-body myInfo">
+							<h5 id="nickname">昵称： <span><%- user.name %></span></h5>
+							<h6 id="sex">SEX: I am a    <span><%- user.sex %></span></h6>  
+					</div>
+				</div>
+			</div>
+		<!-- 用户列表 -->
+		<div class="col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<span class="glyphicon glyphicon-pushpin"></span> &nbsp; 在线用户
+				</div>
+				<div class="panel-body list-body">
+					<table class="table table-hover user-list">
+					<!--	<tr>
+							<td>user1</td>
+						</tr> -->
+					</table>
+				</div>
+				<div class="panel-footer" id="list-count">
+				<!--	当前在线：1人 -->
+				</div>
+			</div>
+		</div>
+		</div>
+		<!-- 聊天信息区 -->
+			<div class="col-sm-8">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span class="glyphicon glyphicon-leaf"></span> &nbsp;聊天内容
+					</div>
+					<div class="panel-body">
+						<div class="msg-list">
+						</div>
+					</div>
+				</div>
+
+				<!-- 信息输入框 -->
+				<div class="input-group input-group-lg">
+					<span class="input-group-btn dropup">
+						<button type="button"class="btn btn-info dropdown-toggle" data-toggle="dropdown" id="quick">快捷信息
+						<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu quick-menu">
+							<li> 1. Hello </li>
+							<li> 2. Hello World</li>
+							<li> 3. 求关照求关照</li>
+							<li> 4. 吃饭不 </li>
+							<li> 5. 天黑请睁眼 </li>
+						</ul>
+					</span>
+					<input type="text" class="form-control" id="msgIn" placeholder="请输入聊天内容" onkeydown="keySend(event)">
+					<span class="input-group-btn">
+					<button type="button"class="btn btn-primary " onclick="sendMyMessage()">
+						发送
+						<span class="glyphicon glyphicon-send"></span>
+						</button> 
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="change-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only"></span>
+					</button>
+					<h4 class="modal-title" id="myModal">请设置个人信息</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="alert alert-danger" role="alert" id="nickname-error" style="display:none" >
+							<span class="glyphicon glyphicon-remove"></span>此昵称已存在~
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon">昵称</span>
+								<input type="text" id="nickname-edit" class="form-control" placeholder="请输入昵称">
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon">sex</span>&nbsp;&nbsp;
+								<input type="radio" name="sex" value="boy" checked="checked">&nbsp;&nbsp;boy&nbsp;&nbsp;
+								<input type="radio" name="sex" value="girl">&nbsp;&nbsp;girl   
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="setMyInfo()">确认修改</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal  chat lists-->
+	<div class="modal fade" id="chat-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+						<span class="sr-only"></span>
+					</button>
+					<h4 class="modal-title" id="myModal">您最近的聊天记录</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+							<table class="table table-hover chat-list">
+							<!--	<tr><td>2014/12/12</td><td>hehehhehehehheh</td></tr>
+								<tr><td>2014/12/12</td><td>afadsfasdfasdf</td></tr>
+								<tr><td>2014/12/12</td><td>hehsssssehhehehehheh</td></tr> -->
+							</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="ensure()">确认</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="javascripts/jquery.min.js"></script>
+	<script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="javascripts/chat_client.js"></script>
+</body>
+</html>

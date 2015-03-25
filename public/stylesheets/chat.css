@@ -1,0 +1,34 @@
+body {
+  padding: 0 50px 50px 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.mt15{ margin-top: 15px;}
+.wrapIt{ border: 2px solid red; border-radius: 5px;}
+#nickname span,#sex span{ color: blue; font-weight: bold;}
+.list-body{position: relative;height: 320px;overflow-y: scroll;}
+.user-list td:hover{cursor: pointer;}
+.user-name{color: blue;}
+.msg-list{position: relative;height: 470px;overflow-y: scroll;}
+.chat-list td{word-wrap;break-word;word-break:break-all;}
+.msg-name,
+.msg-time{ color: blue;}
+.msg-name{cursor: pointer;}
+.msg-wrap{margin-bottom: 8px;}
+.msg-content{ 
+	padding: 5px;
+	text-indent: 5em;
+	width: 90%;
+	word-wrap;break-word;
+	word-break:break-all;
+	line-height: 25px;
+}
+.quick-menu li{margin-bottom: 5px; padding:2px;border-bottom: 1px dotted #999;}
+.quick-menu li:hover{background-color: #5bc0de;}
+.dropdown-menu li{ cursor: pointer;}
+.msg-system{ background-color: #dbd9c9; padding: 3px;width: 60%;min-width: 400px;border: 3px solid #999;border-radius: 10px;color: #e16b55;}
+.msg-welcome{background-color: #dbd9c9;padding: 3px; width: 60%;min-width: 400px;border: 3px solid #999;border-radius: 10px;color: #e16b55;}
